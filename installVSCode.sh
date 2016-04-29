@@ -1,8 +1,9 @@
 #!/bin/bash
-dest="/opt"
+dest="/opt/test"
 tmpDest="/tmp/vscode"
 folderInstaller='VSCode'
 shortcut='/usr/share/applications/vscode.desktop'
+link="/usr/bin/code"
 if (( $EUID != 0 )); then
     echo "Please run as root"
     exit
@@ -12,6 +13,7 @@ elif [  -d $dest/$folderInstaller ]; then
     if [ "$r"  == "y" ]; then 
 	rm -R -f $dest/$folderInstaller
 	rm -f $shortcut
+	rm -f $link
     else
     echo "Not removed"
     fi    
@@ -38,4 +40,4 @@ Name=Visual Studio Code
 Icon="$dest/$folderInstaller"/resources/app/resources/linux/vscode.png
 Exec="$dest/$folderInstaller"/Code
 Type=Application" >> $shortcut
-
+ln -s $dest/$folderInstaller"/code" $link
